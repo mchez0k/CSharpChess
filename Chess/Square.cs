@@ -35,6 +35,14 @@ namespace Chess
                    y >= 0 && y < 8; 
         }
 
+        public string Name { get { return ((char)('a' + x)).ToString() + (y + 1).ToString(); } }
+        public static IEnumerable<Square> YieldSquares()
+        {
+            for (int y = 0; y < 8; y++)
+                for (int x = 0; x < 8; x++)
+                    yield return new Square(x, y);
+        }
+
         public static bool operator == (Square a, Square b)
         {
             return a.x == b.x && a.y == b.y;

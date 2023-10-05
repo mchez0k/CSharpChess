@@ -49,11 +49,13 @@ namespace Chess
 
                 case Figure.whiteRook:
                 case Figure.blackRook:
-                    return false;
+                    return (fm.SignX == 0 || fm.SignY == 0 &&
+                        CanStraightMove());
 
                 case Figure.whiteBishop:
                 case Figure.blackBishop:
-                    return false;
+                    return (fm.SignX !=0 && fm.SignY != 0 &&
+                        CanStraightMove());
 
                 case Figure.whiteKnight:
                 case Figure.blackKnight:
@@ -61,7 +63,7 @@ namespace Chess
 
                 case Figure.whitePawn:
                 case Figure.blackPawn:
-                    return false;
+                    return CanPawnMove();
 
                 default: return false;
             }
@@ -91,6 +93,44 @@ namespace Chess
         {
             if ((fm.AbsDeltaX == 1 && fm.AbsDeltaY == 2) ||
                 (fm.AbsDeltaX == 2 && fm.AbsDeltaY == 1)) return true;
+            return false;
+        }
+
+        private bool CanPawnMove()
+        {
+            if (fm.from.y < 1 || fm.from.y > 6)
+                return false;
+            int StepY = fm.figure.GetColor() == Color.white ? 1 : -1;
+            return
+                CanPawnGo(StepY) ||
+                CanPawnJump(StepY) ||
+                CanPawnTake(StepY);
+        }
+        private bool CanPawnGo(int StepY)
+        {
+            if (board.GetFigureAt(fm.to) == Figure.none)
+                if (fm.DeltaX == 0)
+                    if (fm.DeltaY == StepY)
+                        return true;
+            return false;
+        }
+
+        private bool CanPawnJump(int StepY)
+        {
+            if (board.GetFigureAt(fm.to) == Figure.none)
+                if (fm.DeltaX == 0)
+                    if (fm.DeltaY == 2 * StepY)
+                        if (fm.from.y == 1 || fm.from.y == 6)
+                            if (board.GetFigureAt(new Square(fm.from.x, fm.from.y + StepY)) == Figure.none)
+                        return true;
+            return false;
+        }
+        private bool CanPawnTake(int StepY)
+        {
+            if (board.GetFigureAt(fm.to) != Figure.none)
+                if (fm.AbsDeltaX == 1)
+                    if (fm.DeltaY == StepY)
+                        return true;
             return false;
         }
     }

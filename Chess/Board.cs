@@ -38,7 +38,14 @@ namespace Chess
             string[] lines = data.Split('/');
             for (int y = 7; y >= 0; y--)
                 for (int x = 0; x < 8; x++)
-                    figures[x, y] = lines[7-y][x] == '.' ? Figure.none : (Figure)lines[7 - y][x];
+                    figures[x, y] = lines[7-y][x] == '.' ? Figure.none :
+                        (Figure)lines[7 - y][x];
+        }
+        public IEnumerable<FigureOnSquare> YieldFigures()
+        {
+            foreach (Square square in Square.YieldSquares())
+                if (GetFigureAt(square).GetColor() == moveColor)
+                    yield return new FigureOnSquare(GetFigureAt(square), square);
         }
 
         void GenerateFEN()
