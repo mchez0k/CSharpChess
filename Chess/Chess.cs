@@ -13,6 +13,7 @@
         Chess (Board board) 
         {
             this.board = board;
+            this.fen = board.fen;
         }
 
         public Chess Move(string move)
@@ -20,6 +21,7 @@
             FigureMoving fm = new FigureMoving(move);
             Board nextBoard = board.Move(fm);
             Chess nextChess = new Chess(nextBoard);
+
             return nextChess;
         }
 
