@@ -58,9 +58,9 @@ namespace Chess
             }
             string eight = "11111111";
             for (int j = 8; j >= 2; j--)
-                sb.Replace(eight.Substring(0, j), j.ToString());
+                sb.Replace(eight.Substring(0, j), j.ToString()); // Замена подстрок единиц в ФЕН 
             return sb.ToString();
-        }
+        } 
         public Figure GetFigureAt(Square square)
         {
             if (square.OnBoard())
