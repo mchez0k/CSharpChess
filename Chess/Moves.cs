@@ -49,13 +49,13 @@ namespace Chess
 
                 case Figure.whiteRook:
                 case Figure.blackRook:
-                    return (fm.SignX == 0 || fm.SignY == 0 &&
-                        CanStraightMove());
+                    return (fm.SignX == 0 || fm.SignY == 0) &&
+                        CanStraightMove();
 
                 case Figure.whiteBishop:
                 case Figure.blackBishop:
-                    return (fm.SignX !=0 && fm.SignY != 0 &&
-                        CanStraightMove());
+                    return fm.SignX !=0 && fm.SignY != 0 &&
+                        CanStraightMove();
 
                 case Figure.whiteKnight:
                 case Figure.blackKnight:
@@ -77,7 +77,6 @@ namespace Chess
                 at = new Square(at.x + fm.SignX, at.y + fm.SignY);
                 if (at == fm.to)
                     return true;
-
             } while (at.OnBoard() &&
                      board.GetFigureAt(at) == Figure.none);
             return false;
